@@ -1,0 +1,4 @@
+
+*[data-placeholder]:not([data-div-placeholder-content]):before {
+    content: attr(data-placeholder);
+}
