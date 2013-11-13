@@ -24,7 +24,7 @@
         escapeKeys = escapeKeys.join('');
 
         var entityRegexes = {
-            escape:   new RegExp('[' + escapeKeys + ']', 'g'),
+            escape: new RegExp('[' + escapeKeys + ']', 'g')
         };
 
 
@@ -154,7 +154,16 @@
     };
 
     var _smarttext = function ($el, options) {
-        return $el.html(_parseLinks(_methods['value'].call($el), options));
+        $el.html(_parseLinks(_methods['value'].call($el), options));
+        // This ensures (cross-browser) that if the user clicks the link before
+        // the element gets focus we follow the hyperlink as usual 
+        $el.find('a').one('mousedown', function () {
+            // we are relying on the mousedown event firing before focus
+            if ($(this).attr('contenteditable') === 'false') {
+                $el.data('follow-link', true);
+            }
+        });
+        return $el;
     };
 
     $.fn.smarttext = function () {
@@ -173,10 +182,12 @@
             _placeholderUpdate.call($el);
 
             $el.on('focus', function () {
+                if ($el.data('follow-link')) { return; }
                 $el.find('a').attr('contenteditable', true);
             }).on('blur', function () {
                 _smarttext($el, options);
                 $el.find('a').attr('contenteditable', options.linkAttributes.contenteditable);
+                $el.data('follow-link', false);
             });
 
             $el.on('change keydown keypress input', _placeholderUpdate);
