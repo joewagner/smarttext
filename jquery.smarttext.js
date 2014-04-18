@@ -3,7 +3,7 @@
 
     // Use underscore.js html escaper
     // http://underscorejs.org/#escape
-    var _escape, _throttle;
+    var _escape;
     (function () {
         var entityMap = {
             escape: {
