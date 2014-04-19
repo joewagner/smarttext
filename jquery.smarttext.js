@@ -150,7 +150,8 @@
             title: 'Click outside of link to edit',
             contenteditable: 'false'
         },
-        newlines: true
+        newlines: true,
+        editable: true
     };
 
     var _smarttext = function ($el, options) {
@@ -176,14 +177,14 @@
         return this.each(function (indx, el) {
 
             var $el = $(el);
-            $el.attr('contenteditable', true);
+            $el.attr('contenteditable', options.editable);
             
             _smarttext($el, options);
             _placeholderUpdate.call($el);
 
             $el.on('focus', function () {
                 if ($el.data('follow-link')) { return; }
-                $el.find('a').attr('contenteditable', true);
+                $el.find('a').attr('contenteditable', options.editable);
             }).on('blur', function () {
                 _smarttext($el, options);
                 $el.find('a').attr('contenteditable', options.linkAttributes.contenteditable);
