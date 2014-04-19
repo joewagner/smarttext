@@ -121,4 +121,40 @@ $(document).ready(function () {
         ok(link.hasClass('smarttext'));
     });
 
+    test('destroy method should remove all event listeners', function () {
+        var ct = $('#ct');
+        ct.html('Hello SmartText, here is a link https://github.com/JoeWagner/smarttext');
+
+        ct.smarttext();
+
+        // attach some listeners that don't have anything to do with smarttext,
+        // so we can test that they are not removed during destroy
+        ct.on('blur', function () {});
+        ct.find('a').on('mousedown', function () {});
+
+        ct.smarttext('destroy');
+
+        // bit of a hack to test if events are attached
+        var events = $._data(ct.get(0)).events;
+
+        // make sure events object exists
+        ok(events, 'events exist');
+
+        // Test for listeners
+        equal(events['change'], void 0, 'change event listener correctly cleaned up');
+        equal(events['input'], void 0, 'input event listener correctly cleaned up');
+        equal(events['keypress'], void 0, 'keypress event listener correctly cleaned up');
+        equal(events['keydown'], void 0, 'keydown event listener correctly cleaned up');
+        // make sure unrelated listeners are not removed
+        equal(events['blur'].length, 1, 'blur event listener correctly cleaned up');
+        equal(events['focus'], void 0, 'focus event listener correctly cleaned up');
+
+        var linkEvents = $._data(ct.find('a').get(0)).events;
+
+        ok(linkEvents, 'link events exist');
+
+        equal(linkEvents['mousedown'].length, 1, 'mousedown event listener correctly cleaned up');
+
+    });
+
 });

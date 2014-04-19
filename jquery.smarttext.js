@@ -40,8 +40,12 @@
     var _methods = {
 
         destroy: function () {
-            // TODO: destroy smarttext, and return element to original state
-            this.off();
+            // remove listeners
+            this.off('change keydown keypress input', _placeholderUpdate);
+            this.off('blur', this.data('onBlurListener'));
+            this.off('focus', this.data('onFocusListener'));
+
+            this.find('a').off('mousedown', this.data('onMouseDownListener'));
         },
 
         value: function (val) {
@@ -158,12 +162,7 @@
         $el.html(_parseLinks(_methods['value'].call($el), options));
         // This ensures (cross-browser) that if the user clicks the link before
         // the element gets focus we follow the hyperlink as usual 
-        $el.find('a').one('mousedown', function () {
-            // we are relying on the mousedown event firing before focus
-            if ($(this).attr('contenteditable') === 'false') {
-                $el.data('follow-link', true);
-            }
-        });
+        $el.find('a').one('mousedown', $el.data('onMouseDownListener'));
         return $el;
     };
 
@@ -178,18 +177,33 @@
 
             var $el = $(el);
             $el.attr('contenteditable', options.editable);
-            
-            _smarttext($el, options);
-            _placeholderUpdate.call($el);
 
-            $el.on('focus', function () {
+            var onFocusListener = function () {
                 if ($el.data('follow-link')) { return; }
                 $el.find('a').attr('contenteditable', options.editable);
-            }).on('blur', function () {
+            };
+
+            var onBlurListener = function () {
                 _smarttext($el, options);
                 $el.find('a').attr('contenteditable', options.linkAttributes.contenteditable);
                 $el.data('follow-link', false);
-            });
+            };
+
+            var onMouseDownListener = function () {
+                // we are relying on the mousedown event firing before focus
+                if ($(this).attr('contenteditable') === 'false') {
+                    $el.data('follow-link', true);
+                }
+            }
+
+            $el.data('onFocusListener', onFocusListener);
+            $el.data('onBlurListener', onBlurListener);
+            $el.data('onMouseDownListener', onMouseDownListener);
+
+            _smarttext($el, options);
+            _placeholderUpdate.call($el);
+
+            $el.on('focus', onFocusListener).on('blur', onBlurListener);
 
             $el.on('change keydown keypress input', _placeholderUpdate);
         });
