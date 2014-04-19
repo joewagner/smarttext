@@ -9,8 +9,6 @@ Features:
 
   * Specify placeholder text for the look and feel of a textarea, or input element
 
-  * (not yet implemented) key off of special events to persist data anytime the value of the element changes
-
 Example Usage:
 
 Include the css file
@@ -53,7 +51,8 @@ Default Options:
         'data-special': 'my special data attribute'
     },
     // whether you want smarttext to preserve the line breaks
-    newlines: true
+    newlines: true,
+    editable: true
 
 Methods:
 
