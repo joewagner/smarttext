@@ -57,4 +57,4 @@ Default Options:
 Methods:
 
   * value: without additional arguments it gets current value, with arguments it sets the value
-  * destroy: removes event listener from the element
+  * destroy: removes event listeners attached by smarttext
