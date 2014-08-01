@@ -1,0 +1,27 @@
+{
+    "name": "smarttext",
+    "version": "0.1.0",
+    "title": "JQuery plugin to enhance contenteditable attribute",
+    "author": {
+        "name": "Joe Wagner",
+        "url": "https://github.com/joewagner"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://raw.githubusercontent.com/JoeWagner/smarttext/master/LICENSE"
+        }
+    ],
+    "dependencies": {
+        "jquery": "~1.10.2"
+    },
+    "homepage": "https://github.com/JoeWagner/smarttext",
+    "keywords": [
+        "content",
+        "contenteditable",
+        "escape",
+        "escaping",
+        "html5"
+    ],
+    "bugs": "https://github.com/JoeWagner/smarttext/issues"
+}
