@@ -1,7 +1,7 @@
 {
     "name": "smarttext",
     "version": "0.1.0",
-    "title": "JQuery plugin to enhance contenteditable attribute",
+    "title": "smarttext",
     "author": {
         "name": "Joe Wagner",
         "url": "https://github.com/joewagner"
@@ -23,5 +23,6 @@
         "escaping",
         "html5"
     ],
+    "description": "JQuery plugin to enhance contenteditable attribute",
     "bugs": "https://github.com/JoeWagner/smarttext/issues"
 }
