@@ -73,3 +73,9 @@ Once the page is ready, you can add some javascript that initializes then gets a
         var val = $('#smartEl').smarttext('value', 'Hi world!\nI like smarttext.\nHere is a link https://github.com/joewagner/smarttext');
 
     });
+
+Tests
+=====
+
+Tests are written in [qUnit](https://github.com/jquery/qunit).  To run the tests, fork this repo and open [test/index.html](https://github.com/JoeWagner/smarttext/blob/master/test/index.html) in the browser of your choosing.
+PRs and issues are very welcome! If you want to add or fix anything, please try to include some test(s).
