@@ -36,6 +36,18 @@
         };
 
     })();
+
+    var _defaultOptions = {
+        linkAttributes: {
+            title: 'Click outside of link to edit',
+            contenteditable: 'false'
+        },
+        parseLinks: true,
+        newlines: true,
+        editable: true
+    };
+
+    var _options = null;
     
     var _methods = {
 
@@ -78,7 +90,11 @@
         },
 
         setValue: function (val) {
-            this.html(_parseLinks(val));
+            if (_options && _options.parseLinks) {
+                this.html(_parseLinks(val));
+            } else {
+                this.html(val);
+            }
             _placeholderUpdate.call(this);
             return this;
         }
@@ -149,17 +165,12 @@
         });
     };
 
-    var defaultOptions = {
-        linkAttributes: {
-            title: 'Click outside of link to edit',
-            contenteditable: 'false'
-        },
-        newlines: true,
-        editable: true
-    };
-
     var _smarttext = function ($el, options) {
-        $el.html(_parseLinks(_methods['value'].call($el), options));
+        if (options.parseLinks) {
+            $el.html(_parseLinks(_methods['value'].call($el), options));
+        } else {
+            $el.html(_methods['value'].call($el));
+        }
         // This ensures (cross-browser) that if the user clicks the link before
         // the element gets focus we follow the hyperlink as usual 
         $el.find('a').one('mousedown', $el.data('onMouseDownListener'));
@@ -172,20 +183,20 @@
         if (isMethod) {
             return _methods[args[0]].apply(this, args.slice(1));
         }
-        var options = $.extend(true, {}, defaultOptions, args[0]);
+        _options = $.extend(true, {}, _defaultOptions, args[0]);
         return this.each(function (indx, el) {
 
             var $el = $(el);
-            $el.attr('contenteditable', options.editable);
+            $el.attr('contenteditable', _options.editable);
 
             var onFocusListener = function () {
                 if ($el.data('follow-link')) { return; }
-                $el.find('a').attr('contenteditable', options.editable);
+                $el.find('a').attr('contenteditable', _options.editable);
             };
 
             var onBlurListener = function () {
-                _smarttext($el, options);
-                $el.find('a').attr('contenteditable', options.linkAttributes.contenteditable);
+                _smarttext($el, _options);
+                $el.find('a').attr('contenteditable', _options.linkAttributes.contenteditable);
                 $el.data('follow-link', false);
             };
 
@@ -200,7 +211,7 @@
             $el.data('onBlurListener', onBlurListener);
             $el.data('onMouseDownListener', onMouseDownListener);
 
-            _smarttext($el, options);
+            _smarttext($el, _options);
             _placeholderUpdate.call($el);
 
             $el.on('focus', onFocusListener).on('blur', onBlurListener);
