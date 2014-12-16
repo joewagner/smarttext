@@ -30,7 +30,8 @@ $(document).ready(function () {
         ok(ct.attr('contenteditable') === 'true', 'contenteditable is present');
         
         var p = ct.append('<p>');
-        ok(p.attr('contenteditable') !== 'false', 'children are editable by default')
+        ok(p.attr('contenteditable') !== 'false', 'children are editable by default');
+        ct.smarttext('destroy');
     });
 
     test('value method gets sanitized string', function () {
@@ -52,6 +53,7 @@ $(document).ready(function () {
                         + '<br>'
                         + 'Fourth line with link, <a href="https://google.com">https://google.com</a>');
         strictEqual(ct.smarttext('value'), sanitized, 'break tag based line breaks are handled');
+        ct.smarttext('destroy');
     });
 
     test('value method allows setting of text', function () {
@@ -63,6 +65,7 @@ $(document).ready(function () {
 
         ct.smarttext('value', '');
         strictEqual(ct.smarttext('value'), '', 'value may be set to empty string in the smarttext element');
+        ct.smarttext('destroy');
     });
 
     test('value method does not set arbitrary html content', function () {
@@ -73,6 +76,7 @@ $(document).ready(function () {
         strictEqual(ct.find('p').get(0), void 0, 'paragraph element was not injected');
         strictEqual(ct.find('script').get(0), void 0, 'script element was not injected');
         strictEqual(ct.text().indexOf('<'), 0, 'html is escaped');
+        ct.smarttext('destroy');
     });
 
     test('hyperlinks in text are converted to live links on init', function () {
@@ -83,6 +87,16 @@ $(document).ready(function () {
 
         strictEqual(link.attr('href'), 'https://github.com/JoeWagner/smarttext', 'link with correct href was created');
         strictEqual(link.attr('contenteditable'), 'false', 'created link can be followed');
+        ct.smarttext('destroy');
+    });
+
+    test('hyperlinks in text are not converted to live links on init if parseLinks == false', function () {
+        var ct = $('#ct');
+        ct.html('Hello SmartText, here is a link https://github.com/JoeWagner/smarttext');
+        ct.smarttext({parseLinks: false});
+        
+        strictEqual(ct.find('a').length, 0, 'link was not created');
+        ct.smarttext('destroy');
     });
 
     test('hyperlinks should be converted to contenteditable when smarttext get focus', function () {
@@ -96,6 +110,7 @@ $(document).ready(function () {
         ct.blur();
         link = ct.find('a');
         strictEqual(link.attr('contenteditable'), 'false', 'link may be used after editing');
+        ct.smarttext('destroy');
     });
 
     test('placeholder text should be specifyable with the data-placeholder attribute', function () {
@@ -107,6 +122,7 @@ $(document).ready(function () {
         ct.html('Hey SmartText').trigger('input');
         placeholderValue = window.getComputedStyle(ct.get(0), ':before').getPropertyValue('content');
         strictEqual(placeholderValue, "", 'placeholder text is hidden once text is entered');
+        ct.smarttext('destroy');
     });
 
     test('options should allow specifying link attributes', function () {
@@ -119,6 +135,7 @@ $(document).ready(function () {
         var link = ct.find('a');
         ok(link.hasClass('link'));
         ok(link.hasClass('smarttext'));
+        ct.smarttext('destroy');
     });
 
     test('destroy method should remove all event listeners', function () {
@@ -154,7 +171,7 @@ $(document).ready(function () {
         ok(linkEvents, 'link events exist');
 
         equal(linkEvents['mousedown'].length, 1, 'mousedown event listener correctly cleaned up');
-
+        ct.smarttext('destroy');
     });
 
 });
