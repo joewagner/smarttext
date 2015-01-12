@@ -6,11 +6,17 @@ smarttext is a jQuery plugin that builds off of the HTML5 contenteditable attrib
 Installation
 ============
 
-make sure jQuery is on the page first, e.g. `<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>`
+make sure jQuery is on the page first, e.g.
 
-download [jquery.smarttext.js](https://raw.githubusercontent.com/JoeWagner/smarttext/master/jquery.smarttext.js).  Add it to your page with a script tag, e.g. `<script type="text/javascript" src="/path/to/jquey.smarttext.js"></script>`
+```<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>```
 
-download [jquery.smarttext.css](https://raw.githubusercontent.com/JoeWagner/smarttext/master/jquery.smarttext.css).  Add it to your page with a link tag, e.g. `<link rel="stylesheet" href="/path/to/jquery.smarttext.css">`
+download [jquery.smarttext.js](https://raw.githubusercontent.com/JoeWagner/smarttext/master/jquery.smarttext.js).  Add it to your page with a script tag, e.g.
+
+```<script type="text/javascript" src="/path/to/jquey.smarttext.js"></script>```
+
+download [jquery.smarttext.css](https://raw.githubusercontent.com/JoeWagner/smarttext/master/jquery.smarttext.css).  Add it to your page with a link tag, e.g.
+
+```<link rel="stylesheet" href="/path/to/jquery.smarttext.css">```
 
 Options
 =======
